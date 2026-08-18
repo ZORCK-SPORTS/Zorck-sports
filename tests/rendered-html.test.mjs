@@ -28,8 +28,10 @@ test("server-renders the finished Zorck Sport homepage", async () => {
   assert.match(html, /Explorar 694 modelos/i);
   assert.match(html, /11 99707-3939/);
   assert.match(html, /@zorcksport/);
+  assert.match(html, /\/zorck-logo\.png/);
   assert.match(html, /Encontre a sua direção/i);
   assert.match(html, /WhatsApp/i);
+  assert.doesNotMatch(html, /Escolha\. Combine|Identidade em movimento/i);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|Building your site/i);
 });
 
@@ -48,6 +50,7 @@ test("ships the catalog and social card without starter assets", async () => {
   assert.doesNotMatch(page, /button-gold|wa-mini|announcement-bar|ticker/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   await access(new URL("../public/og.png", import.meta.url));
+  await access(new URL("../public/zorck-logo.png", import.meta.url));
   await access(new URL("../public/favicon-zorck.svg", import.meta.url));
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
 });

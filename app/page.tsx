@@ -13,11 +13,7 @@ function whatsappUrl(message: string) {
 function Brand({ compact = false }: { compact?: boolean }) {
   return (
     <span className={`brand-lockup${compact ? " brand-lockup-compact" : ""}`}>
-      <span className="brand-mark" aria-hidden="true">C</span>
-      <span className="brand-wordmark">
-        <strong>ZORCK</strong>
-        <span>sport</span>
-      </span>
+      <img src="/zorck-logo.png" alt="Zorck Sport" />
     </span>
   );
 }
@@ -91,11 +87,6 @@ export default function Home() {
 
       <main id="conteudo">
         <section className="hero" id="inicio">
-          <div className="hero-index" aria-hidden="true">
-            <span>01</span>
-            <span>Identidade em movimento</span>
-          </div>
-
           <div className="hero-copy">
             <p className="overline">UNIFORMES PERSONALIZADOS · SÃO PAULO</p>
             <h1>
@@ -135,7 +126,6 @@ export default function Home() {
               <span>REFERÊNCIA 12257</span>
               <span>INTERCLASSE / PERSONALIZÁVEL</span>
             </figcaption>
-            <span className="hero-note">Escolha. Combine. Faça seu.</span>
           </figure>
         </section>
 
