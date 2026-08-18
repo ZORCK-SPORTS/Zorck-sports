@@ -5,6 +5,7 @@ import { WhatsAppIcon } from "./social-icons";
 
 const WHATSAPP_NUMBER = "5511997073939";
 const INSTAGRAM_URL = "https://www.instagram.com/zorcksport/";
+const QUIMERA_URL = "https://gbrielh.github.io/Quimera-tech";
 
 function whatsappUrl(message: string) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
@@ -115,16 +116,33 @@ export default function Home() {
           </div>
 
           <figure className="hero-visual">
-            <div className="hero-image-frame">
+            <div className="hero-shirt hero-shirt-interclasse">
               <img
-                src="https://www.janeteartes.com/imagens/thumbs/arte-camisa-de-interclasse-aguia-preto-e-dourado-64971.webp"
-                alt="Referência de uniforme esportivo personalizado em preto"
+                src="/hero-shirts/interclasse.png"
+                alt="Camisa personalizada verde e branca da categoria Interclasse"
                 fetchPriority="high"
               />
             </div>
-            <figcaption>
-              <span>REFERÊNCIA 12257</span>
-              <span>INTERCLASSE / PERSONALIZÁVEL</span>
+            <div className="hero-shirt hero-shirt-formandos">
+              <img
+                src="/hero-shirts/formandos.png"
+                alt="Camisa personalizada preta e azul da categoria Formandos"
+              />
+            </div>
+            <div className="hero-shirt hero-shirt-terceirao">
+              <img
+                src="/hero-shirts/terceirao.png"
+                alt="Camisa personalizada branca e azul da categoria Terceirão"
+              />
+            </div>
+            <div className="hero-shirt hero-shirt-pesca">
+              <img
+                src="/hero-shirts/pesca.png"
+                alt="Camisa personalizada preta e verde da categoria Pesca"
+              />
+            </div>
+            <figcaption className="visually-hidden">
+              Modelos de Interclasse, Formandos, Terceirão e Pesca
             </figcaption>
           </figure>
         </section>
@@ -261,6 +279,15 @@ export default function Home() {
         </div>
         <div className="footer-bottom">
           <span>© 2026 Zorck Sport</span>
+          <a
+            href={QUIMERA_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Site desenvolvido por Quimera Tech — abre em nova guia"
+          >
+            Site desenvolvido por <strong>Quimera Tech</strong>
+            <span aria-hidden="true">↗</span>
+          </a>
           <span>São Paulo · Brasil</span>
         </div>
       </footer>
