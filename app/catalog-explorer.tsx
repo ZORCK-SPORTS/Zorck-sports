@@ -3,6 +3,7 @@
 /* eslint-disable @next/next/no-img-element -- Janete Artes supplies dynamic remote thumbnails at runtime. */
 
 import { useEffect, useMemo, useState } from "react";
+import { WhatsAppIcon } from "./social-icons";
 
 type CatalogItem = {
   name: string;
@@ -114,8 +115,14 @@ function ProductCard({
       <div className="product-content">
         <p>{item.code ? `MODELO #${item.code}` : "MODELO PERSONALIZÁVEL"}</p>
         <h3>{title}</h3>
-        <a href={whatsappUrl(message)} target="_blank" rel="noopener noreferrer">
-          Quero este modelo <span aria-hidden="true">↗</span>
+        <a
+          href={whatsappUrl(message)}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Quero o modelo ${title} pelo WhatsApp — abre em nova guia`}
+        >
+          <WhatsAppIcon className="whatsapp-icon" />
+          <span>Quero este modelo</span>
         </a>
       </div>
     </article>
@@ -218,118 +225,124 @@ export function CatalogExplorer() {
 
   return (
     <div className="catalog-explorer">
-      <div className="catalog-toolbar">
-        <label className="catalog-search">
-          <span>ENCONTRE SEU MODELO</span>
-          <span className="search-field">
-            <span className="search-symbol" aria-hidden="true">⌕</span>
-            <input
-              type="search"
-              value={query}
-              onChange={(event) => changeQuery(event.target.value)}
-              placeholder="Busque por tema, animal, profissão ou modalidade"
-              autoComplete="off"
-            />
-            {query ? (
-              <button type="button" onClick={() => changeQuery("")}>
-                Limpar
-              </button>
-            ) : null}
-          </span>
-        </label>
+      <div className="catalog-layout">
+        <aside className="catalog-toolbar" aria-label="Filtros do catálogo">
+          <label className="catalog-search">
+            <span>ENCONTRE SEU MODELO</span>
+            <span className="search-field">
+              <span className="search-symbol" aria-hidden="true">⌕</span>
+              <input
+                type="search"
+                value={query}
+                onChange={(event) => changeQuery(event.target.value)}
+                placeholder="Tema, animal ou modalidade"
+                autoComplete="off"
+              />
+              {query ? (
+                <button type="button" onClick={() => changeQuery("")}>
+                  Limpar
+                </button>
+              ) : null}
+            </span>
+          </label>
 
-        <div className="category-wrap">
-          <p>NAVEGUE POR CATEGORIA</p>
-          <div className="category-tabs" role="group" aria-label="Categorias do catálogo">
-            {categoryOptions.map((option) => (
-              <button
-                key={option.value || "all"}
-                type="button"
-                className={category === option.value ? "active" : ""}
-                onClick={() => chooseCategory(option.value)}
-                aria-pressed={category === option.value}
-              >
-                {option.label}
-              </button>
-            ))}
+          <div className="category-wrap">
+            <p>NAVEGUE POR CATEGORIA</p>
+            <div className="category-tabs" role="group" aria-label="Categorias do catálogo">
+              {categoryOptions.map((option) => (
+                <button
+                  key={option.value || "all"}
+                  type="button"
+                  className={category === option.value ? "active" : ""}
+                  onClick={() => chooseCategory(option.value)}
+                  aria-pressed={category === option.value}
+                >
+                  <span>{option.label}</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+              ))}
+            </div>
           </div>
+        </aside>
+
+        <div className="catalog-results">
+          <div className="results-head">
+            <div>
+              <p>MODELOS ENCONTRADOS</p>
+              <strong>
+                {status === "loading"
+                  ? "Carregando catálogo..."
+                  : status === "error"
+                    ? "Não foi possível carregar agora"
+                    : `${filteredItems.length} ${filteredItems.length === 1 ? "modelo disponível" : "modelos disponíveis"}`}
+              </strong>
+            </div>
+            <p>Marque os favoritos <span aria-hidden="true">+</span></p>
+          </div>
+
+          {status === "loading" ? (
+            <div className="catalog-loading" role="status" aria-label="Carregando modelos">
+              {Array.from({ length: 8 }, (_, index) => (
+                <div key={index} className="loading-card" />
+              ))}
+            </div>
+          ) : null}
+
+          {status === "error" ? (
+            <div className="catalog-empty">
+              <span aria-hidden="true">!</span>
+              <h3>O catálogo está se atualizando.</h3>
+              <p>Você ainda pode falar com a gente e pedir um modelo exclusivo.</p>
+              <a
+                href={whatsappUrl("Olá! Quero conhecer os modelos disponíveis da Zorck Sport.")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="button button-light"
+              >
+                <WhatsAppIcon className="whatsapp-icon" />
+                Pedir modelos no WhatsApp
+              </a>
+            </div>
+          ) : null}
+
+          {status === "ready" && filteredItems.length === 0 ? (
+            <div className="catalog-empty">
+              <span aria-hidden="true">?</span>
+              <h3>Nenhum modelo encontrado.</h3>
+              <p>Tente outro termo ou peça uma criação exclusiva para o seu projeto.</p>
+              <button type="button" className="button button-light" onClick={() => changeQuery("")}>
+                Limpar busca
+              </button>
+            </div>
+          ) : null}
+
+          {status === "ready" && visibleItems.length ? (
+            <div className="product-grid" aria-live="polite">
+              {visibleItems.map((item) => (
+                <ProductCard
+                  key={itemKey(item)}
+                  item={item}
+                  selected={selected.has(itemKey(item))}
+                  onSelect={() => toggleSelection(item)}
+                  onOpen={() => setActiveItem(item)}
+                />
+              ))}
+            </div>
+          ) : null}
+
+          {status === "ready" && visible < filteredItems.length ? (
+            <div className="load-more-wrap">
+              <button
+                className="button button-outline"
+                type="button"
+                onClick={() => setVisible((current) => current + PAGE_SIZE)}
+              >
+                Carregar mais modelos <span aria-hidden="true">↓</span>
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
-
-      <div className="results-head">
-        <div>
-          <p>MODELOS ENCONTRADOS</p>
-          <strong>
-            {status === "loading"
-              ? "Carregando catálogo..."
-              : status === "error"
-                ? "Não foi possível carregar agora"
-                : `${filteredItems.length} ${filteredItems.length === 1 ? "modelo disponível" : "modelos disponíveis"}`}
-          </strong>
-        </div>
-        <p>Selecione seus favoritos <span aria-hidden="true">✓</span></p>
-      </div>
-
-      {status === "loading" ? (
-        <div className="catalog-loading" role="status" aria-label="Carregando modelos">
-          {Array.from({ length: 8 }, (_, index) => (
-            <div key={index} className="loading-card" />
-          ))}
-        </div>
-      ) : null}
-
-      {status === "error" ? (
-        <div className="catalog-empty">
-          <span aria-hidden="true">!</span>
-          <h3>O catálogo está se atualizando.</h3>
-          <p>Você ainda pode falar com a gente e pedir um modelo exclusivo.</p>
-          <a
-            href={whatsappUrl("Olá! Quero conhecer os modelos disponíveis da Zorck Sport.")}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="button button-gold"
-          >
-            Pedir modelos no WhatsApp
-          </a>
-        </div>
-      ) : null}
-
-      {status === "ready" && filteredItems.length === 0 ? (
-        <div className="catalog-empty">
-          <span aria-hidden="true">?</span>
-          <h3>Nenhum modelo encontrado.</h3>
-          <p>Tente outro termo ou peça uma criação exclusiva para o seu projeto.</p>
-          <button type="button" className="button button-gold" onClick={() => changeQuery("")}>
-            Limpar busca
-          </button>
-        </div>
-      ) : null}
-
-      {status === "ready" && visibleItems.length ? (
-        <div className="product-grid" aria-live="polite">
-          {visibleItems.map((item) => (
-            <ProductCard
-              key={itemKey(item)}
-              item={item}
-              selected={selected.has(itemKey(item))}
-              onSelect={() => toggleSelection(item)}
-              onOpen={() => setActiveItem(item)}
-            />
-          ))}
-        </div>
-      ) : null}
-
-      {status === "ready" && visible < filteredItems.length ? (
-        <div className="load-more-wrap">
-          <button
-            className="button button-outline"
-            type="button"
-            onClick={() => setVisible((current) => current + PAGE_SIZE)}
-          >
-            Carregar mais modelos <span aria-hidden="true">↓</span>
-          </button>
-        </div>
-      ) : null}
 
       {selectedItems.length ? (
         <div className="selection-bar" aria-live="polite">
@@ -341,8 +354,8 @@ export function CatalogExplorer() {
             </p>
           </div>
           <a href={whatsappUrl(selectionMessage)} target="_blank" rel="noopener noreferrer">
-            <span className="wa-mini" aria-hidden="true">WA</span>
-            Enviar seleção
+            <WhatsAppIcon className="whatsapp-icon" />
+            Enviar seleção no WhatsApp
           </a>
         </div>
       ) : null}
@@ -378,14 +391,15 @@ export function CatalogExplorer() {
               <span>{activeItem.code ? `Modelo #${activeItem.code}` : "Modelo personalizável"}</span>
               <p>Gostou? Envie este modelo e conte como quer personalizar cores, nomes, números e logos.</p>
               <a
-                className="button button-gold"
+                className="button button-dark"
                 href={whatsappUrl(
                   `Olá! Quero saber mais sobre o modelo ${displayName(activeItem.name)}${activeItem.code ? ` (#${activeItem.code})` : ""} da Zorck Sport.`,
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Quero este modelo <span aria-hidden="true">↗</span>
+                <WhatsAppIcon className="whatsapp-icon" />
+                Quero este modelo
               </a>
               <button
                 className="dialog-select"

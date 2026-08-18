@@ -21,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
       template: "%s | Zorck Sport",
     },
     description:
-      "Catálogo de uniformes personalizados para times, turmas, empresas, pesca, agro e eventos. Atendimento direto pelo WhatsApp.",
+      "Uniformes personalizados para times, turmas, empresas e eventos. Explore referências, selecione seus favoritos e fale direto com a Zorck Sport.",
     keywords: [
       "uniformes personalizados",
       "camisas esportivas",
@@ -29,26 +29,27 @@ export async function generateMetadata(): Promise<Metadata> {
       "terceirão",
       "Zorck Sport",
     ],
+    icons: { icon: "/favicon-zorck.svg" },
     robots: { index: true, follow: true },
     openGraph: {
       type: "website",
       locale: "pt_BR",
       siteName: "Zorck Sport",
-      title: "Zorck Sport | Uniformes que vestem identidade",
-      description: "Explore 694 referências e personalize o uniforme do seu grupo.",
-      images: [{ url: socialImage, width: 1760, height: 922, alt: "Zorck Sport — uniformes personalizados" }],
+      title: "Zorck Sport | Não vista o óbvio",
+      description: "Explore 694 referências e crie um uniforme com a identidade do seu grupo.",
+      images: [{ url: socialImage, width: 1731, height: 909, alt: "Zorck Sport — uniformes personalizados" }],
     },
     twitter: {
       card: "summary_large_image",
-      title: "Zorck Sport | Uniformes que vestem identidade",
-      description: "Explore 694 referências e personalize o uniforme do seu grupo.",
+      title: "Zorck Sport | Não vista o óbvio",
+      description: "Explore 694 referências e crie um uniforme com a identidade do seu grupo.",
       images: [socialImage],
     },
   };
 }
 
 export const viewport: Viewport = {
-  themeColor: "#070707",
+  themeColor: "#0b0c0e",
   colorScheme: "dark",
 };
 

@@ -24,12 +24,12 @@ test("server-renders the finished Zorck Sport homepage", async () => {
   const html = await response.text();
   assert.match(html, /<html lang="pt-BR">/i);
   assert.match(html, /Zorck Sport \| Uniformes personalizados/i);
-  assert.match(html, /VISTA A/i);
-  assert.match(html, /SUA IDENTIDADE/i);
+  assert.match(html, /Não vista/i);
+  assert.match(html, /Explorar 694 modelos/i);
   assert.match(html, /11 99707-3939/);
   assert.match(html, /@zorcksport/);
-  assert.match(html, /694/);
-  assert.match(html, /Catálogo Zorck Sport/i);
+  assert.match(html, /Encontre a sua direção/i);
+  assert.match(html, /WhatsApp/i);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|Building your site/i);
 });
 
@@ -42,9 +42,12 @@ test("ships the catalog and social card without starter assets", async () => {
   ]);
 
   assert.match(page, /<CatalogExplorer/);
+  assert.match(page, /<WhatsAppIcon/);
   assert.match(layout, /\/og\.png/);
   assert.match(catalog, /window\.BRANDS_CATALOG/);
+  assert.doesNotMatch(page, /button-gold|wa-mini|announcement-bar|ticker/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   await access(new URL("../public/og.png", import.meta.url));
+  await access(new URL("../public/favicon-zorck.svg", import.meta.url));
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
 });
