@@ -3,6 +3,7 @@
 /* eslint-disable @next/next/no-img-element -- Janete Artes supplies dynamic remote thumbnails at runtime. */
 
 import { useEffect, useMemo, useState } from "react";
+import { withBasePath } from "./site-paths";
 import { WhatsAppIcon } from "./social-icons";
 
 type CatalogItem = {
@@ -141,7 +142,7 @@ export function CatalogExplorer() {
   useEffect(() => {
     let cancelled = false;
 
-    fetch("/catalog-data.js")
+    fetch(withBasePath("/catalog-data.js"))
       .then((response) => {
         if (!response.ok) throw new Error("Catálogo indisponível");
         return response.text();

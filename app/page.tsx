@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element -- catalog references are supplied by Janete Artes. */
 
 import { CatalogExplorer } from "./catalog-explorer";
+import { withBasePath } from "./site-paths";
 import { WhatsAppIcon } from "./social-icons";
 
 const WHATSAPP_NUMBER = "5511997073939";
@@ -14,7 +15,7 @@ function whatsappUrl(message: string) {
 function Brand({ compact = false }: { compact?: boolean }) {
   return (
     <span className={`brand-lockup${compact ? " brand-lockup-compact" : ""}`}>
-      <img src="/zorck-logo.png" alt="Zorck Sport" />
+      <img src={withBasePath("/zorck-logo.png")} alt="Zorck Sport" />
     </span>
   );
 }
@@ -22,6 +23,8 @@ function Brand({ compact = false }: { compact?: boolean }) {
 function InstagramGlyph() {
   return <span className="instagram-glyph" aria-hidden="true" />;
 }
+
+export const dynamic = "force-static";
 
 export default function Home() {
   const introductionMessage =
@@ -118,26 +121,26 @@ export default function Home() {
           <figure className="hero-visual">
             <div className="hero-shirt hero-shirt-interclasse">
               <img
-                src="/hero-shirts/interclasse.png"
+                src={withBasePath("/hero-shirts/interclasse.png")}
                 alt="Camisa personalizada verde e branca da categoria Interclasse"
                 fetchPriority="high"
               />
             </div>
             <div className="hero-shirt hero-shirt-formandos">
               <img
-                src="/hero-shirts/formandos.png"
+                src={withBasePath("/hero-shirts/formandos.png")}
                 alt="Camisa personalizada preta e azul da categoria Formandos"
               />
             </div>
             <div className="hero-shirt hero-shirt-terceirao">
               <img
-                src="/hero-shirts/terceirao.png"
+                src={withBasePath("/hero-shirts/terceirao.png")}
                 alt="Camisa personalizada branca e azul da categoria Terceirão"
               />
             </div>
             <div className="hero-shirt hero-shirt-pesca">
               <img
-                src="/hero-shirts/pesca.png"
+                src={withBasePath("/hero-shirts/pesca.png")}
                 alt="Camisa personalizada preta e verde da categoria Pesca"
               />
             </div>
