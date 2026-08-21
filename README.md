@@ -7,7 +7,7 @@ Site institucional e catálogo da Zorck Sport feito com HTML, CSS e JavaScript p
 - `public/index.html`: conteúdo e estrutura da página.
 - `public/styles.css`: identidade visual e responsividade.
 - `public/app.js`: catálogo, filtros, seleção e interações.
-- `public/catalog-data.js`: dados dos 694 modelos.
+- `public/catalog-data.js`: dados dos 586 modelos ativos.
 
 Para visualizar localmente, basta servir ou abrir `public/index.html`.
 

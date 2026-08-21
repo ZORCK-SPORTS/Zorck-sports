@@ -12,11 +12,9 @@
     ["Time Amador", "Times"],
     ["Pesca", "Pesca"],
     ["Agro", "Agro"],
-    ["Abada", "Abadás"],
     ["Formandos", "Formandos"],
     ["Professor", "Professor"],
     ["Profissao", "Profissões"],
-    ["Religiao", "Religiosos"],
   ];
 
   const categoryLabels = Object.fromEntries(categoryOptions);
@@ -331,7 +329,7 @@
 
   function setupCatalog() {
     document.querySelectorAll(".catalog-total").forEach((node) => {
-      node.textContent = String(items.length || 694);
+      node.textContent = String(items.length);
     });
     renderFilters();
     renderCatalog();
