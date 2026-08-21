@@ -3,6 +3,8 @@
 
   const WHATSAPP_NUMBER = "5511997073939";
   const PAGE_SIZE = 16;
+  const BRAND_POLICY_MESSAGE =
+    "Se houver logos, escudos, personagens ou marcas de terceiros na referência, quero que sejam substituídos por uma identidade original.";
 
   const categoryOptions = [
     ["", "Todos"],
@@ -273,7 +275,7 @@
     const list = selectedItems
       .map((item, position) => `${position + 1}. ${displayName(item.name)}${item.code ? ` (#${item.code})` : ""}`)
       .join("\n");
-    return `Olá! Separei estes modelos no catálogo da Zorck Sport:\n\n${list}\n\nQuero conversar sobre personalização e valores.`;
+    return `Olá! Separei estes modelos no catálogo da Zorck Sport:\n\n${list}\n\n${BRAND_POLICY_MESSAGE}\n\nQuero conversar sobre personalização e valores.`;
   }
 
   function updateSelectionBar() {
@@ -318,7 +320,7 @@
     dialogTitle.textContent = title;
     dialogCode.textContent = item.code ? `Modelo #${item.code}` : "Modelo personalizável";
     dialogWhatsApp.href = whatsappUrl(
-      `Olá! Quero saber mais sobre o modelo ${title}${item.code ? ` (#${item.code})` : ""} da Zorck Sport.`,
+      `Olá! Quero saber mais sobre o modelo ${title}${item.code ? ` (#${item.code})` : ""} da Zorck Sport. ${BRAND_POLICY_MESSAGE}`,
     );
     dialogSelect.textContent = state.selected.has(itemKey(item)) ? "Remover da seleção" : "Adicionar à seleção";
     document.body.classList.add("dialog-open");
@@ -366,7 +368,7 @@
     contact.target = "_blank";
     contact.rel = "noopener noreferrer";
     contact.href = whatsappUrl(
-      `Olá! Vi o modelo ${title}${item.code ? ` (#${item.code})` : ""} no catálogo da Zorck Sport e quero saber mais sobre a personalização.`,
+      `Olá! Vi o modelo ${title}${item.code ? ` (#${item.code})` : ""} no catálogo da Zorck Sport e quero saber mais sobre a personalização. ${BRAND_POLICY_MESSAGE}`,
     );
     contact.setAttribute("aria-label", `Quero o modelo ${title} pelo WhatsApp — abre em nova guia`);
     const arrow = createElement("span", "", "↗");

@@ -598,6 +598,7 @@ img {
 }
 
 .section-heading,
+.brand-policy-catalog,
 .catalog-tools,
 .results-heading,
 .product-grid,
@@ -637,6 +638,46 @@ img {
   font-size: 15px;
   font-weight: 550;
   line-height: 1.75;
+}
+
+.brand-policy {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: center;
+  gap: 15px;
+}
+
+.brand-policy > span {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--white);
+  font-size: 17px;
+  font-weight: 950;
+}
+
+.brand-policy p {
+  margin: 0;
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.brand-policy strong {
+  font-weight: 950;
+}
+
+.brand-policy-catalog {
+  margin-top: 42px;
+  border-block: 1px solid #a7aaa3;
+  padding: 18px 0;
+}
+
+.brand-policy-catalog + .catalog-tools {
+  margin-top: clamp(36px, 5vw, 70px);
 }
 
 .catalog-tools {
@@ -1434,6 +1475,25 @@ img {
   line-height: 1.7;
 }
 
+.brand-policy-dialog {
+  grid-template-columns: 32px minmax(0, 1fr);
+  align-items: start;
+  margin-top: 16px;
+  border: 1px solid #a7aaa3;
+  padding: 13px;
+}
+
+.brand-policy-dialog > span {
+  width: 32px;
+  height: 32px;
+  font-size: 13px;
+}
+
+.brand-policy-dialog p {
+  font-size: 11px;
+  line-height: 1.55;
+}
+
 .dialog-copy .button {
   margin-top: 17px;
 }
@@ -1754,8 +1814,13 @@ body.dialog-open {
   }
 
   .section-heading,
+  .brand-policy-catalog,
   .catalog-tools {
     padding-inline: 8px;
+  }
+
+  .brand-policy {
+    align-items: start;
   }
 
   .section-heading h2,
