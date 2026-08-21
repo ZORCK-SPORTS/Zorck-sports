@@ -7,18 +7,13 @@ Site institucional e catálogo da Zorck Sport feito com HTML, CSS e JavaScript p
 - `public/index.html`: conteúdo e estrutura da página.
 - `public/styles.css`: identidade visual e responsividade.
 - `public/app.js`: catálogo, filtros, seleção e interações.
+- `public/catalog-data.js`: dados dos 694 modelos.
 
-Para visualizar localmente, execute `npm run dev`. Para gerar a versão publicável em `dist`, execute `npm run build`.
+Para visualizar localmente, basta servir ou abrir `public/index.html`.
 
 ## Catálogo
 
-O arquivo `public/catalog-data.js` contém o snapshot das referências públicas da Janete Artes exibidas no site. Para sincronizá-lo novamente no Windows, execute:
-
-```powershell
-& '.\tools\sync-catalog.ps1'
-```
-
-O script mantém apenas peças de vestuário, remove materiais digitais auxiliares, reúne categorias e preserva o último catálogo até uma nova sincronização bem-sucedida.
+O arquivo `public/catalog-data.js` contém o snapshot das referências públicas exibidas no site.
 
 ## Contato
 
