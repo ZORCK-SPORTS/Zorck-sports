@@ -111,29 +111,126 @@
     const buttons = [...document.querySelectorAll(".hero-picker button")];
     if (!image || !label || !index || !buttons.length) return;
 
-    buttons.forEach((button) => {
-      button.addEventListener("click", () => {
-        if (button.classList.contains("active")) return;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let rotationTimer;
+    let rotationQueue = [];
+    let changeToken = 0;
+    let activeButton = buttons.find((button) => button.classList.contains("active")) || buttons[0];
 
-        buttons.forEach((candidate) => {
-          const active = candidate === button;
-          candidate.classList.toggle("active", active);
-          candidate.setAttribute("aria-pressed", String(active));
-        });
+    function shuffle(values) {
+      const copy = [...values];
+      for (let position = copy.length - 1; position > 0; position -= 1) {
+        const randomPosition = Math.floor(Math.random() * (position + 1));
+        [copy[position], copy[randomPosition]] = [copy[randomPosition], copy[position]];
+      }
+      return copy;
+    }
+
+    function nextRandomButton() {
+      if (!rotationQueue.length) {
+        rotationQueue = shuffle(buttons.filter((button) => button !== activeButton));
+      }
+      return rotationQueue.shift();
+    }
+
+    function showModel(button) {
+      buttons.forEach((candidate) => {
+        const active = candidate === button;
+        candidate.classList.toggle("active", active);
+        candidate.setAttribute("aria-pressed", String(active));
+      });
+
+      activeButton = button;
+      image.src = button.dataset.image;
+      image.alt = button.dataset.alt;
+      label.textContent = button.dataset.label;
+      index.textContent = button.dataset.index;
+    }
+
+    function scheduleRotation() {
+      window.clearTimeout(rotationTimer);
+      if (buttons.length < 2 || reducedMotion.matches || document.hidden) return;
+
+      const delay = 8000 + Math.random() * 4000;
+      rotationTimer = window.setTimeout(() => activate(nextRandomButton()), delay);
+    }
+
+    function activate(button) {
+      window.clearTimeout(rotationTimer);
+
+      if (!button || button === activeButton) {
+        scheduleRotation();
+        return;
+      }
+
+      const token = ++changeToken;
+      const nextImage = new Image();
+
+      nextImage.onload = () => {
+        if (token !== changeToken) return;
+
+        if (reducedMotion.matches) {
+          showModel(button);
+          scheduleRotation();
+          return;
+        }
 
         image.classList.add("is-changing");
-        const nextImage = new Image();
-        nextImage.src = button.dataset.image;
-        nextImage.onload = () => {
-          image.src = button.dataset.image;
-          image.alt = button.dataset.alt;
-          label.textContent = button.dataset.label;
-          index.textContent = button.dataset.index;
+
+        window.setTimeout(() => {
+          if (token !== changeToken) return;
+
+          showModel(button);
           requestAnimationFrame(() => image.classList.remove("is-changing"));
-        };
-        nextImage.onerror = () => image.classList.remove("is-changing");
+          scheduleRotation();
+        }, 500);
+      };
+
+      nextImage.onerror = () => {
+        if (token !== changeToken) return;
+        image.classList.remove("is-changing");
+        scheduleRotation();
+      };
+
+      nextImage.src = button.dataset.image;
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        rotationQueue = [];
+        changeToken += 1;
+        image.classList.remove("is-changing");
+        activate(button);
       });
     });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        window.clearTimeout(rotationTimer);
+        changeToken += 1;
+        image.classList.remove("is-changing");
+        return;
+      }
+      scheduleRotation();
+    });
+
+    const handleMotionChange = () => {
+      if (reducedMotion.matches) {
+        window.clearTimeout(rotationTimer);
+        changeToken += 1;
+        image.classList.remove("is-changing");
+        return;
+      }
+      scheduleRotation();
+    };
+
+    if (typeof reducedMotion.addEventListener === "function") {
+      reducedMotion.addEventListener("change", handleMotionChange);
+    } else {
+      reducedMotion.addListener(handleMotionChange);
+    }
+
+    scheduleRotation();
   }
 
   const grid = document.querySelector("#product-grid");
