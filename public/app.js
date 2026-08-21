@@ -79,6 +79,16 @@
     });
   }
 
+  function keepWhatsAppClearOfFooter() {
+    const footer = document.querySelector(".site-footer");
+    const floatingButton = document.querySelector(".floating-whatsapp");
+    if (!footer || !floatingButton || !("IntersectionObserver" in window)) return;
+
+    new IntersectionObserver(([entry]) => {
+      floatingButton.classList.toggle("is-footer-visible", entry.isIntersecting);
+    }).observe(footer);
+  }
+
   function setupMenu() {
     const button = document.querySelector("#menu-toggle");
     const menu = document.querySelector("#main-nav");
@@ -494,6 +504,7 @@
   }
 
   setupWhatsAppLinks();
+  keepWhatsAppClearOfFooter();
   setupMenu();
   setupHeroPicker();
   setupCatalog();
