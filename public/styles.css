@@ -1283,17 +1283,22 @@ main,
 .quimera-credit > span {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  font-size: 8px;
-  letter-spacing: 0.08em;
+  gap: 5px;
+  font-size: 9px;
+  line-height: 1.2;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .quimera-credit strong {
   color: var(--white);
-  font-family: var(--display);
-  font-size: 17px;
-  letter-spacing: 0.025em;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: 0.06em;
+  word-spacing: 0.28em;
+  white-space: nowrap;
 }
 
 .quimera-credit b {
