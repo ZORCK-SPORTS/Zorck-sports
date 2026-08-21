@@ -1,11 +1,8 @@
 :root {
   --ink: #0a0b0d;
-  --ink-soft: #15171a;
-  --paper: #f2f1eb;
-  --paper-deep: #e7e5dc;
+  --paper: #ffffff;
+  --paper-deep: #ececec;
   --white: #ffffff;
-  --acid: #d9ff3f;
-  --acid-deep: #bfed08;
   --muted: #a6aaa6;
   --muted-dark: #555951;
   --line-dark: rgba(255, 255, 255, 0.16);
@@ -60,12 +57,13 @@ img {
 
 ::selection {
   background: var(--ink);
-  color: var(--acid);
+  color: var(--white);
 }
 
 :focus-visible {
-  outline: 3px solid var(--acid);
+  outline: 3px solid var(--white);
   outline-offset: 4px;
+  box-shadow: 0 0 0 5px var(--ink);
 }
 
 .skip-link {
@@ -100,32 +98,20 @@ img {
 }
 
 .brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 11px;
-  width: fit-content;
+  width: 185px;
+  height: 44px;
+  display: block;
+  flex: 0 0 auto;
+  overflow: hidden;
 }
 
 .brand img {
-  width: 38px;
-  height: 38px;
-}
-
-.brand > span {
-  font-family: var(--display);
-  font-size: 23px;
-  font-stretch: condensed;
-  letter-spacing: 0.035em;
-  line-height: 1;
-}
-
-.brand small {
-  margin-left: 2px;
-  color: var(--acid);
-  font-family: var(--sans);
-  font-size: 10px;
-  font-weight: 850;
-  letter-spacing: 0.12em;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+  mix-blend-mode: screen;
 }
 
 .main-nav {
@@ -151,7 +137,7 @@ img {
   right: 100%;
   bottom: -8px;
   height: 2px;
-  background: var(--acid);
+  background: var(--white);
   transition: right 0.2s ease;
 }
 
@@ -165,7 +151,7 @@ img {
   align-items: center;
   gap: 20px;
   padding: 0 16px;
-  background: var(--acid);
+  background: var(--white);
   color: var(--ink);
   font-size: 10px;
   font-weight: 900;
@@ -175,7 +161,7 @@ img {
 }
 
 .header-cta:hover {
-  background: var(--white);
+  background: #dcdcdc;
   transform: translateY(-2px);
 }
 
@@ -187,7 +173,7 @@ img {
   min-height: calc(100svh - var(--header-height));
   display: grid;
   grid-template-columns: minmax(440px, 0.9fr) minmax(520px, 1.1fr);
-  background: var(--acid);
+  background: var(--paper);
   color: var(--ink);
 }
 
@@ -230,20 +216,31 @@ img {
   font-size: clamp(78px, 8.9vw, 168px);
   font-weight: 900;
   letter-spacing: -0.045em;
-  line-height: 0.77;
+  line-height: 0.88;
   text-transform: uppercase;
 }
 
+.hero h1 > span {
+  display: block;
+  white-space: nowrap;
+}
+
+.hero h1 > span:nth-child(2) {
+  margin-top: 0.03em;
+  margin-left: 0.22em;
+}
+
 .hero h1 em {
-  display: inline-block;
+  display: block;
+  margin: 0.3em 0 0 0.45em;
   font-family: var(--sans);
-  font-size: 0.48em;
+  font-size: 0.38em;
   font-style: italic;
   font-weight: 900;
   letter-spacing: -0.055em;
-  line-height: 0.9;
+  line-height: 1;
+  white-space: nowrap;
   text-transform: none;
-  transform: translateX(0.5em);
 }
 
 .hero-lead {
@@ -300,15 +297,6 @@ img {
 .button-outline:hover {
   background: var(--ink);
   color: var(--white);
-}
-
-.button-acid {
-  background: var(--acid);
-  color: var(--ink);
-}
-
-.button-acid:hover {
-  background: var(--white);
 }
 
 .text-link {
@@ -391,7 +379,7 @@ img {
   bottom: -5%;
   z-index: -1;
   width: 140px;
-  background: var(--acid);
+  background: var(--white);
   transform: skewX(-6deg);
 }
 
@@ -422,7 +410,7 @@ img {
 }
 
 .stage-index span {
-  color: var(--acid);
+  color: var(--white);
   font-family: var(--display);
   font-size: 30px;
   letter-spacing: 0;
@@ -435,7 +423,7 @@ img {
   z-index: -1;
   width: min(73%, 660px);
   aspect-ratio: 1;
-  border: 1px solid rgba(217, 255, 63, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   transform: translate(-50%, -50%) rotate(-14deg);
 }
@@ -457,8 +445,8 @@ img {
   top: 18%;
   width: 10px;
   height: 10px;
-  background: var(--acid);
-  box-shadow: -360px 270px 0 -3px var(--acid);
+  background: var(--white);
+  box-shadow: -360px 270px 0 -3px var(--white);
 }
 
 .hero-product {
@@ -506,9 +494,9 @@ img {
   display: grid;
   place-content: center;
   margin: 0;
-  border: 1px solid rgba(217, 255, 63, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.72);
   border-radius: 50%;
-  color: var(--acid);
+  color: var(--white);
   font-size: 9px;
   font-weight: 850;
   letter-spacing: 0.08em;
@@ -568,7 +556,7 @@ img {
 
 .hero-picker button:hover,
 .hero-picker button.active {
-  background: var(--acid);
+  background: var(--white);
   color: var(--ink);
 }
 
@@ -598,7 +586,7 @@ img {
 }
 
 .category-ribbon i {
-  color: var(--acid);
+  color: var(--white);
   font-size: 12px;
   font-style: normal;
 }
@@ -737,7 +725,7 @@ img {
 .category-filters button.active {
   border-color: var(--ink);
   background: var(--ink);
-  color: var(--acid);
+  color: var(--white);
 }
 
 .results-heading {
@@ -876,7 +864,7 @@ img {
 
 .select-model:hover,
 .product-card.is-selected .select-model {
-  background: var(--acid);
+  background: var(--white);
   color: var(--ink);
 }
 
@@ -924,7 +912,8 @@ img {
 }
 
 .product-content a:hover {
-  color: #568000;
+  color: var(--ink);
+  text-decoration: underline;
 }
 
 .catalog-empty {
@@ -979,7 +968,7 @@ img {
 }
 
 .custom-intro .section-kicker {
-  color: var(--acid);
+  color: var(--white);
 }
 
 .custom-intro h2 {
@@ -988,7 +977,7 @@ img {
 }
 
 .custom-intro h2 em {
-  color: var(--acid);
+  color: var(--white);
   font-family: var(--sans);
   font-size: 0.58em;
   font-style: italic;
@@ -1029,7 +1018,7 @@ img {
 }
 
 .custom-list li > span {
-  color: var(--acid);
+  color: var(--white);
   font-family: var(--display);
   font-size: 24px;
 }
@@ -1050,8 +1039,12 @@ img {
 
 .process-banner {
   padding: clamp(85px, 9vw, 145px) clamp(20px, 4.5vw, 72px);
-  background: var(--acid);
+  background: var(--white);
   color: var(--ink);
+}
+
+.process-banner .section-kicker {
+  color: #3f433d;
 }
 
 .process-banner > p,
@@ -1073,9 +1066,8 @@ img {
   margin: 0;
 }
 
-.process-banner .button-acid {
+.process-banner .button-dark {
   flex: 0 0 auto;
-  border-color: var(--ink);
 }
 
 .site-footer {
@@ -1086,9 +1078,9 @@ img {
   background: var(--ink);
 }
 
-.footer-brand img {
-  width: 48px;
-  height: 48px;
+.footer-brand {
+  width: 220px;
+  height: 54px;
 }
 
 .site-footer > p {
@@ -1115,7 +1107,7 @@ img {
 }
 
 .site-footer a:hover {
-  color: var(--acid);
+  color: var(--white);
 }
 
 .footer-bottom {
@@ -1210,9 +1202,9 @@ img {
   height: 34px;
   display: grid;
   place-items: center;
-  border: 1px solid var(--acid);
+  border: 1px solid var(--white);
   border-radius: 50%;
-  color: var(--acid);
+  color: var(--white);
 }
 
 .selection-bar p {
@@ -1244,7 +1236,7 @@ img {
   align-items: center;
   gap: 16px;
   padding: 0 16px;
-  background: var(--acid);
+  background: var(--white);
   color: var(--ink);
   font-size: 9px;
   font-weight: 900;
@@ -1308,7 +1300,7 @@ img {
 
 .dialog-copy > p:first-child {
   margin: 0 0 13px;
-  color: #4b6700;
+  color: var(--ink);
   font-size: 10px;
   font-weight: 900;
   letter-spacing: 0.1em;
@@ -1530,20 +1522,8 @@ body.dialog-open {
   }
 
   .brand {
-    gap: 8px;
-  }
-
-  .brand img {
-    width: 35px;
-    height: 35px;
-  }
-
-  .brand > span {
-    font-size: 20px;
-  }
-
-  .brand small {
-    font-size: 8px;
+    width: 155px;
+    height: 37px;
   }
 
   .header-cta {
@@ -1555,8 +1535,8 @@ body.dialog-open {
   }
 
   .hero-copy {
-    min-height: 650px;
-    padding: 60px 18px 38px;
+    min-height: auto;
+    padding: 54px 18px 46px;
   }
 
   .eyebrow {
@@ -1564,14 +1544,19 @@ body.dialog-open {
   }
 
   .hero h1 {
-    margin-top: 30px;
-    font-size: clamp(72px, 24vw, 112px);
-    line-height: 0.78;
+    margin: 30px 0 34px;
+    font-size: clamp(64px, 20vw, 92px);
+    line-height: 0.88;
+  }
+
+  .hero h1 > span:nth-child(2) {
+    margin-top: 0.04em;
+    margin-left: 0.18em;
   }
 
   .hero h1 em {
-    font-size: 0.43em;
-    transform: translateX(0.25em);
+    margin: 0.34em 0 0 0.25em;
+    font-size: 0.42em;
   }
 
   .hero-actions {
@@ -1757,6 +1742,8 @@ body.dialog-open {
 
   .footer-brand {
     grid-column: 1 / -1;
+    width: 200px;
+    height: 49px;
   }
 
   .footer-bottom {
@@ -1820,14 +1807,6 @@ body.dialog-open {
 }
 
 @media (max-width: 380px) {
-  .brand small {
-    display: none;
-  }
-
-  .hero h1 {
-    font-size: 70px;
-  }
-
   .product-content h3 {
     font-size: 15px;
   }
