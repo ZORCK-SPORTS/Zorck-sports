@@ -887,21 +887,6 @@ main,
   backdrop-filter: blur(8px);
 }
 
-.product-zoom {
-  position: absolute;
-  right: 12px;
-  bottom: 12px;
-  width: 34px;
-  height: 34px;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.75);
-  border-radius: 50%;
-  background: rgba(10, 11, 13, 0.78);
-  color: var(--white);
-  font-size: 20px;
-}
-
 .select-model {
   position: absolute;
   right: 11px;
@@ -1901,10 +1886,6 @@ body.dialog-open {
     font-size: 7px;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-
-  .product-zoom {
-    display: none;
   }
 
   .select-model {

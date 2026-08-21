@@ -360,9 +360,6 @@
     });
     media.append(image);
     media.append(createElement("span", "product-category", itemCategory(item)));
-    const zoom = createElement("span", "product-zoom", "+");
-    zoom.setAttribute("aria-hidden", "true");
-    media.append(zoom);
 
     const selectButton = createElement("button", "select-model", selected ? "✓" : "+");
     selectButton.type = "button";
