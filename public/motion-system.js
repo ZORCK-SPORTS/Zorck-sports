@@ -71,8 +71,8 @@
       .from(".hero-proof > div", { y: 20, opacity: 0, stagger: 0.09, duration: MOTION.duration.base }, 0.54)
       .from(".hero-stage", { clipPath: "inset(0 0 0 100%)", duration: 1.05 }, 0)
       .fromTo(".hero-product img",
-        { scale: 1.08, y: 35, opacity: 0, visibility: "visible" },
-        { scale: 1, y: 0, opacity: 1, visibility: "visible", duration: 1.1, clearProps: "opacity,visibility", immediateRender: true },
+        { scale: 1.08, y: 35, clipPath: "inset(0 0 100% 0)", visibility: "visible" },
+        { scale: 1, y: 0, clipPath: "inset(0 0 0% 0)", visibility: "visible", duration: 1.1, clearProps: "clipPath,visibility", immediateRender: true },
         0.22,
       )
       .from(".lookbook-card", { x: 45, opacity: 0, rotate: 3, stagger: 0.12, duration: MOTION.duration.slow }, 0.48)

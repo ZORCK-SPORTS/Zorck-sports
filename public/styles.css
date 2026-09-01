@@ -2264,7 +2264,12 @@ body.dialog-open {
 }
 
 .hero-product img {
+  opacity: 1;
   visibility: visible;
+}
+
+.motion-system-ready .hero-product img {
+  opacity: 1 !important;
 }
 
 .motion-reduced .hero-product img {
