@@ -276,68 +276,6 @@
     scheduleRotation();
   }
 
-  let revealObserver;
-
-  function observeRevealElements(scope = document) {
-    if (!revealObserver) return;
-
-    const selectors = [
-      ".section-heading",
-      ".brand-policy-catalog",
-      ".catalog-tools",
-      ".results-heading",
-      ".product-card",
-      ".custom-intro",
-      ".custom-list li",
-      ".process-banner > *",
-      ".site-footer",
-    ].join(",");
-
-    scope.querySelectorAll(selectors).forEach((element, position) => {
-      if (element.dataset.revealReady) return;
-      element.dataset.revealReady = "true";
-      element.classList.add("reveal-item");
-      element.style.setProperty("--reveal-delay", `${Math.min(position % 8, 7) * 55}ms`);
-      revealObserver.observe(element);
-    });
-  }
-
-  function setupScrollExperience() {
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const header = document.querySelector(".site-header");
-
-    if (!reducedMotion.matches && "IntersectionObserver" in window) {
-      document.documentElement.classList.add("motion-ready");
-      revealObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            entry.target.classList.add("is-visible");
-            revealObserver.unobserve(entry.target);
-          });
-        },
-        { rootMargin: "0px 0px -9%", threshold: 0.08 },
-      );
-      observeRevealElements();
-    }
-
-    let scrollFrame = 0;
-    function updateScrollState() {
-      scrollFrame = 0;
-      header?.classList.toggle("is-scrolled", window.scrollY > 24);
-      const hero = document.querySelector(".hero-stage");
-      if (hero && !reducedMotion.matches && window.scrollY < window.innerHeight) {
-        hero.style.setProperty("--hero-shift", `${Math.min(window.scrollY * 0.055, 28)}px`);
-      }
-    }
-
-    window.addEventListener("scroll", () => {
-      if (scrollFrame) return;
-      scrollFrame = requestAnimationFrame(updateScrollState);
-    }, { passive: true });
-    updateScrollState();
-  }
-
   const grid = document.querySelector("#product-grid");
   const resultsCount = document.querySelector("#results-count");
   const emptyState = document.querySelector("#catalog-empty");
@@ -487,7 +425,6 @@
     const fragment = document.createDocumentFragment();
     visibleItems.forEach((item) => fragment.append(createProductCard(item)));
     grid.replaceChildren(fragment);
-    observeRevealElements(grid);
 
     if (!items.length) {
       resultsCount.textContent = "O catálogo não pôde ser carregado agora.";
@@ -627,7 +564,6 @@
   keepWhatsAppClearOfFooter();
   setupMenu();
   setupHeroPicker();
-  setupScrollExperience();
   setupCatalog();
   setupDialog();
 })();

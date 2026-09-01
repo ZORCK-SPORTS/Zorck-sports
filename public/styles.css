@@ -2193,83 +2193,219 @@ body.dialog-open {
   transition: height 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
 }
 
-.site-header.is-scrolled {
-  background: rgba(10, 11, 13, 0.88);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+/* Zorck Motion Design System */
+:root {
+  --motion-duration-micro: 220ms;
+  --motion-duration-fast: 420ms;
+  --motion-duration-base: 680ms;
+  --motion-duration-slow: 900ms;
+  --motion-ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-ease-exit: cubic-bezier(0.64, 0, 0.78, 0);
+  --motion-ease-snap: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.hero-product,
-.shirt-orbit,
-.hero-lookbook {
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+.motion-word-clip {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
 }
 
-.hero-product {
-  transform: translateY(var(--hero-shift, 0));
+.motion-word {
+  display: inline-block;
+  transform-origin: left bottom;
 }
 
-.shirt-orbit {
-  transform: translate(-50%, calc(-50% + var(--hero-shift, 0))) rotate(-14deg);
+.page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  clip-path: inset(0 100% 0 0);
+  pointer-events: none;
+  background: var(--ink);
 }
 
-.hero-lookbook {
-  transform: translateY(calc(var(--hero-shift, 0) * -0.45));
+.page-transition span {
+  width: min(260px, 45vw);
+  height: 3px;
+  background: var(--white);
+  transform: scaleX(0);
 }
 
-.motion-ready .reveal-item {
+.motion-rail {
+  position: fixed;
+  right: 14px;
+  top: calc(var(--header-height) + 18px);
+  bottom: 18px;
+  z-index: 180;
+  width: 1px;
+  overflow: hidden;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.12);
+  mix-blend-mode: difference;
+}
+
+.motion-rail span {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: var(--white);
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+.motion-system-ready .hero-product,
+.motion-system-ready .shirt-orbit,
+.motion-system-ready .hero-lookbook,
+.motion-system-ready .product-card,
+.motion-system-ready .product-media img {
+  transition: none;
+}
+
+.motion-system-ready .product-card {
+  transform-style: preserve-3d;
+}
+
+.motion-system-ready .product-card:hover {
+  border-color: rgba(10, 11, 13, 0.6);
+  box-shadow: 0 18px 45px rgba(10, 11, 13, 0.13);
+}
+
+.motion-system-ready .product-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
   opacity: 0;
-  filter: blur(4px);
-  transform: translateY(34px);
-  transition:
-    opacity 0.72s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
-    transform 0.72s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
-    filter 0.72s ease var(--reveal-delay, 0ms);
+  pointer-events: none;
+  background: radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(255, 255, 255, 0.28), transparent 32%);
+  transition: opacity var(--motion-duration-fast) ease;
 }
 
-.motion-ready .reveal-item.is-visible {
+.motion-system-ready .product-card:hover::after {
   opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
 }
 
-.motion-ready .product-card.reveal-item {
-  transform: translateY(24px) scale(0.985);
+.button,
+.header-cta,
+.text-link,
+.social-link,
+.dialog-select {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
 }
 
-.motion-ready .product-card.reveal-item.is-visible {
-  transform: translateY(0) scale(1);
+.button::before,
+.header-cta::before,
+.social-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateX(-105%) skewX(-12deg);
+  transition: transform var(--motion-duration-fast) var(--motion-ease-enter);
 }
 
-.motion-ready .site-footer > .reveal-item,
-.motion-ready .footer-bottom,
-.motion-ready .quimera-credit {
-  opacity: 1;
-  visibility: visible;
-  filter: none;
-  transform: none;
+.button:hover::before,
+.header-cta:hover::before,
+.social-link:hover::before {
+  transform: translateX(0) skewX(0);
 }
 
-.category-filter-media::after,
-.product-media::after {
-  transition: opacity 0.35s ease;
+.button span,
+.header-cta span,
+.text-link span,
+.social-link > span:last-child {
+  transition: transform var(--motion-duration-fast) var(--motion-ease-enter);
 }
 
-.category-filters button,
-.product-card,
-.custom-list li,
-.social-link {
-  will-change: transform;
+.button:hover span,
+.header-cta:hover span,
+.text-link:hover span,
+.social-link:hover > span:last-child {
+  transform: translate(5px, -3px);
+}
+
+.category-filters button .category-filter-indicator {
+  transition: transform var(--motion-duration-fast) var(--motion-ease-snap), background var(--motion-duration-fast) ease;
+}
+
+.category-filters button:hover .category-filter-indicator {
+  transform: rotate(45deg) scale(1.08);
+}
+
+.category-filters button.active .category-filter-indicator {
+  transform: rotate(0) scale(1);
+}
+
+.custom-section,
+.process-banner {
+  position: relative;
+}
+
+.custom-section::before,
+.process-banner::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 4;
+  width: var(--section-wipe, 0%);
+  height: 2px;
+  pointer-events: none;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+.product-dialog[open] {
+  transform-origin: center;
+}
+
+.product-dialog::backdrop {
+  animation: motion-backdrop var(--motion-duration-base) var(--motion-ease-enter) both;
+}
+
+@keyframes motion-backdrop {
+  from { opacity: 0; backdrop-filter: blur(0); }
+  to { opacity: 1; backdrop-filter: blur(11px); }
+}
+
+@media (max-width: 980px) {
+  body.menu-open .main-nav a {
+    animation: motion-menu-link var(--motion-duration-base) var(--motion-ease-enter) both;
+  }
+
+  body.menu-open .main-nav a:nth-child(2) { animation-delay: 55ms; }
+  body.menu-open .main-nav a:nth-child(3) { animation-delay: 110ms; }
+  body.menu-open .main-nav a:nth-child(4) { animation-delay: 165ms; }
+}
+
+@keyframes motion-menu-link {
+  from { opacity: 0; transform: translateX(-24px) skewX(-5deg); }
+  to { opacity: 1; transform: translateX(0) skewX(0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-product,
-  .shirt-orbit,
-  .hero-lookbook,
-  .reveal-item {
-    opacity: 1 !important;
-    filter: none !important;
-    transform: none !important;
+  .motion-rail,
+  .page-transition {
+    display: none;
   }
+
+  .motion-word,
+  .product-card,
+  .product-media img {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+}
+
+.site-header.is-scrolled {
+  background: rgba(10, 11, 13, 0.88);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 480px) {
