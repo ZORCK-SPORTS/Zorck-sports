@@ -2263,6 +2263,16 @@ body.dialog-open {
   transition: none;
 }
 
+.hero-product img {
+  visibility: visible;
+}
+
+.motion-reduced .hero-product img {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
 .motion-system-ready .product-card {
   transform-style: preserve-3d;
 }
