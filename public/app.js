@@ -121,6 +121,7 @@
     const label = document.querySelector("#hero-label");
     const index = document.querySelector("#hero-index");
     const buttons = [...document.querySelectorAll(".hero-picker button")];
+    const lookbookCards = [...document.querySelectorAll(".lookbook-card")];
     if (!image || !label || !index || !buttons.length) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -145,6 +146,34 @@
       return rotationQueue.shift();
     }
 
+    function updateLookbook(button) {
+      const activeIndex = Math.max(0, Number(button.dataset.index || 1) - 1);
+      const categoryPairs = [
+        ["Agro", "Pesca"],
+        ["Profissao", "Time Amador"],
+        ["Pesca", "Agro"],
+        ["Time Amador", "Profissao"],
+      ];
+      const chosenCategories = categoryPairs[activeIndex % categoryPairs.length];
+
+      lookbookCards.forEach((card, cardIndex) => {
+        const category = chosenCategories[cardIndex];
+        const pool = items.filter((item) =>
+          (item.categories || []).some((value) => normalize(value) === normalize(category)),
+        );
+        if (!pool.length) return;
+
+        const catalogItem = pool[(activeIndex * 11 + cardIndex * 17) % pool.length];
+        const cardImage = card.querySelector("img");
+        const cardLabel = card.querySelector("span");
+        const categoryName = categoryLabels[category] || category;
+        const title = displayName(catalogItem.name);
+        cardImage.src = catalogItem.image;
+        cardImage.alt = title;
+        cardLabel.textContent = `${categoryName} / #${catalogItem.code || "Zorck"}`;
+      });
+    }
+
     function showModel(button) {
       buttons.forEach((candidate) => {
         const active = candidate === button;
@@ -157,6 +186,7 @@
       image.alt = button.dataset.alt;
       label.textContent = button.dataset.label;
       index.textContent = button.dataset.index;
+      updateLookbook(button);
     }
 
     function scheduleRotation() {
@@ -242,6 +272,7 @@
       reducedMotion.addListener(handleMotionChange);
     }
 
+    updateLookbook(activeButton);
     scheduleRotation();
   }
 
@@ -416,17 +447,46 @@
       const active = button.dataset.value === value;
       button.classList.toggle("active", active);
       button.setAttribute("aria-pressed", String(active));
+      const indicator = button.querySelector(".category-filter-indicator");
+      if (indicator) indicator.textContent = active ? "✓" : "↗";
     });
     renderCatalog();
   }
 
   function renderFilters() {
     const fragment = document.createDocumentFragment();
-    categoryOptions.forEach(([value, label]) => {
-      const button = createElement("button", value === state.category ? "active" : "", label);
+    categoryOptions.forEach(([value, label], index) => {
+      const categoryItems = value
+        ? items.filter((item) =>
+            (item.categories || []).some((category) => normalize(category) === normalize(value)) ||
+            normalize(item.name).includes(normalize(value)),
+          )
+        : items;
+      const previewPool = categoryItems.length ? categoryItems : items;
+      const preview = previewPool[(index * 7) % previewPool.length];
+      const button = createElement("button", value === state.category ? "active" : "");
       button.type = "button";
       button.dataset.value = value;
       button.setAttribute("aria-pressed", String(value === state.category));
+      button.setAttribute("aria-label", `${label}: ${categoryItems.length} modelos`);
+
+      const media = createElement("span", "category-filter-media");
+      if (preview) {
+        const image = document.createElement("img");
+        image.src = preview.image;
+        image.alt = "";
+        image.loading = "lazy";
+        image.decoding = "async";
+        media.append(image);
+      }
+      const copy = createElement("span", "category-filter-copy");
+      copy.append(
+        createElement("strong", "", label),
+        createElement("small", "", `${categoryItems.length} ${categoryItems.length === 1 ? "modelo" : "modelos"}`),
+      );
+      const indicator = createElement("span", "category-filter-indicator", value === state.category ? "✓" : "↗");
+      indicator.setAttribute("aria-hidden", "true");
+      button.append(media, copy, indicator);
       button.addEventListener("click", () => setCategory(value));
       fragment.append(button);
     });

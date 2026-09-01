@@ -10,7 +10,8 @@
     <meta name="keywords" content="uniformes personalizados, camisas esportivas, interclasse, terceirão, Zorck Sport">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://zorck-sport.fagundessport.chatgpt.site/">
-    <link rel="icon" href="./favicon-zorck.svg" type="image/svg+xml">
+    <link rel="icon" href="./zorck-symbol.png?v=4" type="image/png">
+    <link rel="apple-touch-icon" href="./zorck-symbol.png?v=4">
     <link rel="stylesheet" href="./styles.css">
 
     <meta property="og:type" content="website">
@@ -48,7 +49,9 @@
         <a href="#modelos">Modelos</a>
         <a href="#personalizacao">Personalização</a>
         <a href="#como-pedir">Como pedir</a>
-        <a href="https://www.instagram.com/zorcksport/" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+        <a class="nav-instagram" href="https://www.instagram.com/zorcksport/" target="_blank" rel="noopener noreferrer">
+          <img src="./instagram.svg" alt="" width="16" height="16" aria-hidden="true"> Instagram
+        </a>
       </nav>
 
       <a class="header-cta whatsapp-link" href="https://wa.me/5511997073939" data-message="Olá! Conheci a Zorck Sport pelo site e quero conversar sobre um uniforme personalizado." target="_blank" rel="noopener noreferrer">
@@ -59,9 +62,9 @@
     <main id="conteudo">
       <section class="hero" id="inicio" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow"><span></span> Uniformes que entram para a história</p>
-          <h1 id="hero-title"><span>Vista</span><span>o que</span><em>une vocês.</em></h1>
-          <p class="hero-lead">Criamos uniformes personalizados para times, turmas e grupos que querem ser reconhecidos antes mesmo do primeiro apito.</p>
+          <p class="eyebrow"><span></span> Sua identidade entra em campo</p>
+          <h1 id="hero-title"><span>Seu time.</span><span>Sua camisa.</span><em>Do seu jeito.</em></h1>
+          <p class="hero-lead">Uniformes exclusivos para times, turmas e equipes. Você escolhe a referência e a Zorck transforma em uma peça que representa o seu grupo.</p>
 
           <div class="hero-actions">
             <a class="button button-dark whatsapp-link" href="https://wa.me/5511997073939" data-message="Olá! Quero criar um uniforme personalizado com a Zorck Sport." target="_blank" rel="noopener noreferrer">
@@ -73,7 +76,7 @@
           <dl class="hero-proof" aria-label="Diferenciais da Zorck Sport">
             <div><dt class="catalog-total">586</dt><dd>referências<br>para começar</dd></div>
             <div><dt>100%</dt><dd>personalizável<br>para o seu grupo</dd></div>
-            <div><dt>1:1</dt><dd>atendimento<br>direto no WhatsApp</dd></div>
+            <div><dt>Direto</dt><dd>atendimento<br>pelo WhatsApp</dd></div>
           </dl>
         </div>
 
@@ -86,6 +89,17 @@
             <img id="hero-shirt" src="./hero-shirts/formandos.png" alt="Camisa personalizada preta e azul para Formandos" width="799" height="900" fetchpriority="high">
             <figcaption id="hero-label">Formandos / Modelo 02</figcaption>
           </figure>
+
+          <div class="hero-lookbook" aria-label="Outras referências de uniformes Zorck">
+            <figure class="lookbook-card lookbook-card-top">
+              <span>Referência do catálogo</span>
+              <img src="" alt="" width="799" height="900">
+            </figure>
+            <figure class="lookbook-card lookbook-card-bottom">
+              <span>Referência do catálogo</span>
+              <img src="" alt="" width="799" height="900">
+            </figure>
+          </div>
 
           <p class="custom-stamp"><span>100%</span> do seu jeito</p>
 
@@ -127,7 +141,13 @@
           </label>
 
           <div class="filter-wrap">
-            <p>Filtrar por categoria</p>
+            <div class="filter-heading">
+              <div>
+                <p>Explore por categoria</p>
+                <strong>Encontre seu estilo</strong>
+              </div>
+              <span>Arraste para ver mais <b aria-hidden="true">→</b></span>
+            </div>
             <div class="category-filters" id="category-filters" role="group" aria-label="Categorias do catálogo"></div>
           </div>
         </div>
