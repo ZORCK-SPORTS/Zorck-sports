@@ -2188,6 +2188,90 @@ body.dialog-open {
   }
 }
 
+/* Movimento editorial durante a rolagem */
+.site-header {
+  transition: height 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
+}
+
+.site-header.is-scrolled {
+  background: rgba(10, 11, 13, 0.88);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+.hero-product,
+.shirt-orbit,
+.hero-lookbook {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-product {
+  transform: translateY(var(--hero-shift, 0));
+}
+
+.shirt-orbit {
+  transform: translate(-50%, calc(-50% + var(--hero-shift, 0))) rotate(-14deg);
+}
+
+.hero-lookbook {
+  transform: translateY(calc(var(--hero-shift, 0) * -0.45));
+}
+
+.motion-ready .reveal-item {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(34px);
+  transition:
+    opacity 0.72s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+    transform 0.72s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+    filter 0.72s ease var(--reveal-delay, 0ms);
+}
+
+.motion-ready .reveal-item.is-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+.motion-ready .product-card.reveal-item {
+  transform: translateY(24px) scale(0.985);
+}
+
+.motion-ready .product-card.reveal-item.is-visible {
+  transform: translateY(0) scale(1);
+}
+
+.motion-ready .site-footer > .reveal-item,
+.motion-ready .footer-bottom,
+.motion-ready .quimera-credit {
+  opacity: 1;
+  visibility: visible;
+  filter: none;
+  transform: none;
+}
+
+.category-filter-media::after,
+.product-media::after {
+  transition: opacity 0.35s ease;
+}
+
+.category-filters button,
+.product-card,
+.custom-list li,
+.social-link {
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-product,
+  .shirt-orbit,
+  .hero-lookbook,
+  .reveal-item {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+}
+
 @media (max-width: 480px) {
   .site-footer {
     grid-template-columns: 1fr;
