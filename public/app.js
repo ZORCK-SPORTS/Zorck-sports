@@ -20,12 +20,17 @@
   ];
 
   const categoryLabels = Object.fromEntries(categoryOptions);
+  const requestedTheme = new URLSearchParams(window.location.search).get("tema");
+  const initialCategory = requestedTheme && requestedTheme !== "todos" && categoryLabels[requestedTheme]
+    ? requestedTheme
+    : "";
+  document.body.classList.toggle("catalog-view", requestedTheme !== null);
   const items = Array.isArray(window.BRANDS_CATALOG)
     ? window.BRANDS_CATALOG.filter((item) => item?.name && item?.image)
     : [];
 
   const state = {
-    category: "",
+    category: initialCategory,
     query: "",
     visible: PAGE_SIZE,
     selected: new Set(),
@@ -108,6 +113,10 @@
     });
 
     menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+    document.addEventListener("click", (event) => {
+      if (!document.body.classList.contains("menu-open")) return;
+      if (!menu.contains(event.target) && !button.contains(event.target)) closeMenu();
+    });
     window.addEventListener("keydown", (event) => {
       if (event.key === "Escape") closeMenu();
     });
@@ -120,6 +129,7 @@
     const image = document.querySelector("#hero-shirt");
     const label = document.querySelector("#hero-label");
     const index = document.querySelector("#hero-index");
+    const heroStage = document.querySelector("#hero-stage");
     const buttons = [...document.querySelectorAll(".hero-picker button")];
     const lookbookCards = [...document.querySelectorAll(".lookbook-card")];
     if (!image || !label || !index || !buttons.length) return;
@@ -128,6 +138,7 @@
     let rotationTimer;
     let rotationQueue = [];
     let changeToken = 0;
+    let interactionPaused = false;
     let activeButton = buttons.find((button) => button.classList.contains("active")) || buttons[0];
 
     function shuffle(values) {
@@ -191,7 +202,7 @@
 
     function scheduleRotation() {
       window.clearTimeout(rotationTimer);
-      if (buttons.length < 2 || reducedMotion.matches || document.hidden) return;
+      if (buttons.length < 2 || reducedMotion.matches || document.hidden || interactionPaused) return;
 
       const delay = 8000 + Math.random() * 4000;
       rotationTimer = window.setTimeout(() => activate(nextRandomButton()), delay);
@@ -246,6 +257,17 @@
       });
     });
 
+    heroStage?.addEventListener("focusin", () => {
+      interactionPaused = true;
+      window.clearTimeout(rotationTimer);
+    });
+
+    heroStage?.addEventListener("focusout", (event) => {
+      if (heroStage.contains(event.relatedTarget)) return;
+      interactionPaused = false;
+      scheduleRotation();
+    });
+
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
         window.clearTimeout(rotationTimer);
@@ -283,6 +305,8 @@
   const searchInput = document.querySelector("#catalog-search");
   const clearSearchButton = document.querySelector("#clear-search");
   const filters = document.querySelector("#category-filters");
+  const heroFilters = document.querySelector("#hero-theme-filters");
+  const activeThemeLabel = document.querySelector("#active-theme-label");
   const selectionBar = document.querySelector("#selection-bar");
   const selectionCount = document.querySelector("#selection-count");
   const sendSelection = document.querySelector("#send-selection");
@@ -420,6 +444,7 @@
 
   function renderCatalog() {
     if (!grid) return;
+    if (activeThemeLabel) activeThemeLabel.textContent = state.category ? `Tema ${categoryLabels[state.category]}` : "Todos os temas";
     const matches = filteredItems();
     const visibleItems = matches.slice(0, state.visible);
     const fragment = document.createDocumentFragment();
@@ -440,10 +465,10 @@
     loadMoreButton.hidden = state.visible >= matches.length;
   }
 
-  function setCategory(value) {
+  function setCategory(value, moveToCatalog = false) {
     state.category = value;
     state.visible = PAGE_SIZE;
-    filters.querySelectorAll("button").forEach((button) => {
+    document.querySelectorAll("[data-theme-filter]").forEach((button) => {
       const active = button.dataset.value === value;
       button.classList.toggle("active", active);
       button.setAttribute("aria-pressed", String(active));
@@ -451,9 +476,13 @@
       if (indicator) indicator.textContent = active ? "✓" : "↗";
     });
     renderCatalog();
+    if (moveToCatalog) {
+      document.querySelector("#modelos")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }
 
-  function renderFilters() {
+  function renderFilterGroup(container, moveToCatalog = false) {
+    if (!container) return;
     const fragment = document.createDocumentFragment();
     categoryOptions.forEach(([value, label], index) => {
       const categoryItems = value
@@ -467,11 +496,12 @@
       const button = createElement("button", value === state.category ? "active" : "");
       button.type = "button";
       button.dataset.value = value;
+      button.dataset.themeFilter = "";
       button.setAttribute("aria-pressed", String(value === state.category));
-      button.setAttribute("aria-label", `${label}: ${categoryItems.length} modelos`);
+      button.setAttribute("aria-label", `${label}: ${categoryItems.length} modelos${moveToCatalog ? ", abrir no catálogo" : ""}`);
 
       const media = createElement("span", "category-filter-media");
-      if (preview) {
+      if (moveToCatalog && preview) {
         const image = document.createElement("img");
         image.src = preview.image;
         image.alt = "";
@@ -484,16 +514,35 @@
         createElement("strong", "", label),
         createElement("small", "", `${categoryItems.length} ${categoryItems.length === 1 ? "modelo" : "modelos"}`),
       );
-      const indicator = createElement("span", "category-filter-indicator", value === state.category ? "✓" : "↗");
-      indicator.setAttribute("aria-hidden", "true");
-      button.append(media, copy, indicator);
-      button.addEventListener("click", () => setCategory(value));
+      if (moveToCatalog) {
+        const indicator = createElement("span", "category-filter-indicator", value === state.category ? "✓" : "↗");
+        indicator.setAttribute("aria-hidden", "true");
+        button.append(media, copy, indicator);
+      } else {
+        button.append(copy);
+      }
+      button.addEventListener("click", () => {
+        if (!moveToCatalog) {
+          setCategory(value);
+          return;
+        }
+        const catalogUrl = new URL("./", window.location.href);
+        catalogUrl.searchParams.set("tema", value || "todos");
+        catalogUrl.hash = "modelos";
+        window.location.assign(catalogUrl);
+      });
       fragment.append(button);
     });
-    filters.replaceChildren(fragment);
+    container.replaceChildren(fragment);
+  }
+
+  function renderFilters() {
+    renderFilterGroup(heroFilters, true);
+    renderFilterGroup(filters);
   }
 
   function setupCatalog() {
+    let searchTimer;
     document.querySelectorAll(".catalog-total").forEach((node) => {
       node.textContent = String(items.length);
     });
@@ -502,13 +551,18 @@
     updateSelectionBar();
 
     searchInput.addEventListener("input", () => {
-      state.query = searchInput.value;
-      state.visible = PAGE_SIZE;
-      clearSearchButton.hidden = !state.query;
-      renderCatalog();
+      const nextQuery = searchInput.value;
+      clearSearchButton.hidden = !nextQuery;
+      window.clearTimeout(searchTimer);
+      searchTimer = window.setTimeout(() => {
+        state.query = nextQuery;
+        state.visible = PAGE_SIZE;
+        renderCatalog();
+      }, 180);
     });
 
     clearSearchButton.addEventListener("click", () => {
+      window.clearTimeout(searchTimer);
       searchInput.value = "";
       state.query = "";
       state.visible = PAGE_SIZE;
@@ -518,6 +572,7 @@
     });
 
     document.querySelector("#reset-filters").addEventListener("click", () => {
+      window.clearTimeout(searchTimer);
       searchInput.value = "";
       state.query = "";
       clearSearchButton.hidden = true;
