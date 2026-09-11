@@ -41,7 +41,7 @@
     <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
 
     <header class="site-header">
-      <a class="brand" href="./#inicio" aria-label="Zorck Sport — início">
+      <a class="brand" href="./index.html#inicio" aria-label="Zorck Sport — início">
         <img src="./zorck-logo.png" alt="" width="1774" height="887">
       </a>
 
@@ -51,10 +51,10 @@
       </button>
 
       <nav class="main-nav" id="main-nav" aria-label="Navegação principal">
-        <a class="nav-catalog-link" href="./?tema=todos#modelos">Catálogo completo <span aria-hidden="true">↗</span></a>
-        <a href="./#personalizacao">Personalização</a>
-        <a href="./#como-pedir">Como pedir</a>
-        <a href="./#duvidas">Dúvidas</a>
+        <a class="nav-catalog-link" href="./index.html?tema=todos#modelos">Catálogo completo <span aria-hidden="true">↗</span></a>
+        <a href="./index.html#personalizacao">Personalização</a>
+        <a href="./index.html#como-pedir">Como pedir</a>
+        <a href="./index.html#duvidas">Dúvidas</a>
         <a class="nav-instagram" href="https://www.instagram.com/zorcksport/" target="_blank" rel="noopener noreferrer">
           <img src="./instagram.svg" alt="" width="16" height="16" aria-hidden="true"> Instagram
         </a>
@@ -66,31 +66,19 @@
     </header>
 
     <main id="conteudo">
+      <section class="theme-showcase" id="temas" aria-label="Categorias do catálogo">
+        <div class="theme-showcase-rail">
+          <div class="category-filters hero-theme-filters" id="hero-theme-filters" role="group" aria-label="Escolha um tema para explorar o catálogo"></div>
+        </div>
+      </section>
+
       <section class="hero" id="inicio" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow"><span></span> Criação feita para representar você</p>
-          <h1 id="hero-title"><span>Sua ideia.</span><span>Sua peça.</span><em>Única como o seu grupo.</em></h1>
-          <p class="hero-lead">Você escolhe o tema, conta a sua ideia e participa da criação. A Zorck transforma referências, cores e identidade em uma peça personalizada de verdade.</p>
-
-          <ul class="personalization-points" aria-label="O que você pode personalizar">
-            <li>Cores</li>
-            <li>Nomes e números</li>
-            <li>Identidade do grupo</li>
-            <li>Detalhes da peça</li>
-          </ul>
-
-          <div class="hero-actions">
-            <a class="button button-dark whatsapp-link" href="https://wa.me/5511997073939" data-message="Olá! Quero criar um uniforme personalizado com a Zorck Sport." target="_blank" rel="noopener noreferrer">
-              Criar uma peça exclusiva <span aria-hidden="true">↗</span>
-            </a>
-            <a class="text-link" href="#modelos">Explorar modelos <span aria-hidden="true">↓</span></a>
+          <h1 class="sr-only" id="hero-title">Zorck Sport — uniformes personalizados</h1>
+          <div class="hero-brand-canvas" aria-hidden="true">
+            <img class="hero-brand-logo" src="./zorck-logo.png" alt="" width="1774" height="887">
+            <div class="hero-miniatures" id="hero-miniatures"></div>
           </div>
-
-          <dl class="hero-proof" aria-label="Diferenciais da Zorck Sport">
-            <div><dt class="catalog-total">586</dt><dd>referências<br>para começar</dd></div>
-            <div><dt>100%</dt><dd>personalizável<br>para o seu grupo</dd></div>
-            <div><dt>Direto</dt><dd>atendimento<br>pelo WhatsApp</dd></div>
-          </dl>
         </div>
 
         <div class="hero-stage" id="hero-stage">
@@ -99,8 +87,8 @@
 
           <div class="shirt-orbit" aria-hidden="true"></div>
           <figure class="hero-product">
-            <img id="hero-shirt" src="./hero-shirts/formandos.png" alt="Camisa personalizada preta e azul para Formandos" width="799" height="900" fetchpriority="high">
-            <figcaption id="hero-label">Formandos / Modelo 02</figcaption>
+            <img id="hero-shirt" src="" alt="Uniforme personalizado da categoria Times" width="799" height="900" fetchpriority="high">
+            <figcaption id="hero-label">Times / Referência 01</figcaption>
           </figure>
 
           <div class="hero-lookbook" aria-label="Outras referências de uniformes Zorck">
@@ -117,24 +105,7 @@
           <p class="custom-stamp"><span>100%</span> do seu jeito</p>
 
           <div class="hero-picker" role="group" aria-label="Exemplos de uniformes">
-            <button type="button" data-image="./hero-shirts/interclasse.png" data-label="Interclasse / Modelo 01" data-alt="Camisa personalizada verde e branca para Interclasse" data-index="01" aria-pressed="false"><span>01</span> Interclasse</button>
-            <button class="active" type="button" data-image="./hero-shirts/formandos.png" data-label="Formandos / Modelo 02" data-alt="Camisa personalizada preta e azul para Formandos" data-index="02" aria-pressed="true"><span>02</span> Formandos</button>
-            <button type="button" data-image="./hero-shirts/terceirao.png" data-label="Terceirão / Modelo 03" data-alt="Camisa personalizada branca e azul para Terceirão" data-index="03" aria-pressed="false"><span>03</span> Terceirão</button>
-            <button type="button" data-image="./hero-shirts/pesca.png" data-label="Pesca / Modelo 04" data-alt="Camisa personalizada preta e verde para Pesca" data-index="04" aria-pressed="false"><span>04</span> Pesca</button>
           </div>
-        </div>
-      </section>
-
-      <section class="theme-showcase" id="temas" aria-labelledby="theme-showcase-title">
-        <div class="theme-showcase-heading">
-          <div>
-            <p class="section-kicker">Comece pelo que combina com você</p>
-            <h2 id="theme-showcase-title">Qual é o seu tema?</h2>
-          </div>
-          <p>Escolha um universo para ver modelos e imaginar sua próxima peça. A referência abre o caminho; a criação final leva a identidade do seu grupo.</p>
-        </div>
-        <div class="theme-showcase-rail">
-          <div class="category-filters hero-theme-filters" id="hero-theme-filters" role="group" aria-label="Escolha um tema para explorar o catálogo"></div>
         </div>
       </section>
 
@@ -145,7 +116,7 @@
       <section class="catalog" id="modelos" aria-labelledby="catalog-title">
         <header class="section-heading">
           <div>
-            <a class="catalog-back" href="./#temas">Voltar e escolher outro tema</a>
+            <a class="catalog-back" href="./index.html#temas">Voltar e escolher outro tema</a>
             <p class="section-kicker"><span id="active-theme-label">Todos os temas</span> / <span class="catalog-total">586</span> referências</p>
             <h2 id="catalog-title">Comece por uma<br>ideia que combina.</h2>
           </div>
@@ -254,15 +225,15 @@
     </main>
 
     <footer class="site-footer">
-      <a class="brand footer-brand" href="./#inicio" aria-label="Zorck Sport — voltar ao início">
+      <a class="brand footer-brand" href="./index.html#inicio" aria-label="Zorck Sport — voltar ao início">
         <img src="./zorck-logo.png" alt="" width="1774" height="887">
       </a>
       <p>Uniformes que carregam identidade.</p>
       <nav aria-label="Links do rodapé">
-        <a href="./?tema=todos#modelos">Modelos</a>
-        <a href="./#personalizacao">Personalização</a>
-        <a href="./#como-pedir">Como pedir</a>
-        <a href="./#duvidas">Dúvidas</a>
+        <a href="./index.html?tema=todos#modelos">Modelos</a>
+        <a href="./index.html#personalizacao">Personalização</a>
+        <a href="./index.html#como-pedir">Como pedir</a>
+        <a href="./index.html#duvidas">Dúvidas</a>
       </nav>
       <div class="footer-contact">
         <a class="social-link whatsapp-link" href="https://wa.me/5511997073939" data-message="Olá! Conheci a Zorck Sport pelo site e quero conversar." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp da Zorck Sport, 11 99707-3939 — abre em nova guia">

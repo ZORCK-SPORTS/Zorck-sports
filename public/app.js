@@ -130,58 +130,74 @@
     const label = document.querySelector("#hero-label");
     const index = document.querySelector("#hero-index");
     const heroStage = document.querySelector("#hero-stage");
-    const buttons = [...document.querySelectorAll(".hero-picker button")];
+    const picker = document.querySelector(".hero-picker");
+    const miniatures = document.querySelector("#hero-miniatures");
     const lookbookCards = [...document.querySelectorAll(".lookbook-card")];
+    const timesItems = items.filter((item) =>
+      (item.categories || []).some((value) => normalize(value) === normalize("Time Amador")),
+    );
+    const featuredTimes = [0, 13, 26, 39]
+      .map((position) => timesItems[position % timesItems.length])
+      .filter(Boolean);
+
+    if (picker) {
+      const pickerFragment = document.createDocumentFragment();
+      featuredTimes.forEach((item, position) => {
+        const button = createElement("button", position === 0 ? "active" : "");
+        button.type = "button";
+        button.dataset.image = item.image;
+        button.dataset.label = `Times / Modelo #${item.code || String(position + 1).padStart(2, "0")}`;
+        button.dataset.alt = displayName(item.name);
+        button.dataset.index = String(position + 1).padStart(2, "0");
+        button.setAttribute("aria-pressed", String(position === 0));
+        button.append(createElement("span", "", String(position + 1).padStart(2, "0")), ` Modelo #${item.code || position + 1}`);
+        pickerFragment.append(button);
+      });
+      picker.replaceChildren(pickerFragment);
+    }
+
+    if (miniatures) {
+      const miniatureFragment = document.createDocumentFragment();
+      [7, 91, 176, 284, 413].forEach((position, index) => {
+        const item = items[position % items.length];
+        if (!item) return;
+        const tile = createElement("span", `hero-miniature hero-miniature-${index + 1}`);
+        const tileImage = document.createElement("img");
+        tileImage.src = item.image;
+        tileImage.alt = "";
+        tileImage.loading = "eager";
+        tileImage.decoding = "async";
+        tile.append(tileImage);
+        miniatureFragment.append(tile);
+      });
+      miniatures.replaceChildren(miniatureFragment);
+    }
+
+    const buttons = [...document.querySelectorAll(".hero-picker button")];
     if (!image || !label || !index || !buttons.length) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let rotationTimer;
-    let rotationQueue = [];
     let changeToken = 0;
     let interactionPaused = false;
     let activeButton = buttons.find((button) => button.classList.contains("active")) || buttons[0];
 
-    function shuffle(values) {
-      const copy = [...values];
-      for (let position = copy.length - 1; position > 0; position -= 1) {
-        const randomPosition = Math.floor(Math.random() * (position + 1));
-        [copy[position], copy[randomPosition]] = [copy[randomPosition], copy[position]];
-      }
-      return copy;
-    }
-
-    function nextRandomButton() {
-      if (!rotationQueue.length) {
-        rotationQueue = shuffle(buttons.filter((button) => button !== activeButton));
-      }
-      return rotationQueue.shift();
+    function nextButton() {
+      const activeIndex = buttons.indexOf(activeButton);
+      return buttons[(activeIndex + 1) % buttons.length];
     }
 
     function updateLookbook(button) {
       const activeIndex = Math.max(0, Number(button.dataset.index || 1) - 1);
-      const categoryPairs = [
-        ["Agro", "Pesca"],
-        ["Profissao", "Time Amador"],
-        ["Pesca", "Agro"],
-        ["Time Amador", "Profissao"],
-      ];
-      const chosenCategories = categoryPairs[activeIndex % categoryPairs.length];
-
       lookbookCards.forEach((card, cardIndex) => {
-        const category = chosenCategories[cardIndex];
-        const pool = items.filter((item) =>
-          (item.categories || []).some((value) => normalize(value) === normalize(category)),
-        );
-        if (!pool.length) return;
-
-        const catalogItem = pool[(activeIndex * 11 + cardIndex * 17) % pool.length];
+        if (!timesItems.length) return;
+        const catalogItem = timesItems[(activeIndex * 11 + cardIndex * 17 + 5) % timesItems.length];
         const cardImage = card.querySelector("img");
         const cardLabel = card.querySelector("span");
-        const categoryName = categoryLabels[category] || category;
         const title = displayName(catalogItem.name);
         cardImage.src = catalogItem.image;
         cardImage.alt = title;
-        cardLabel.textContent = `${categoryName} / #${catalogItem.code || "Zorck"}`;
+        cardLabel.textContent = `Times / #${catalogItem.code || "Zorck"}`;
       });
     }
 
@@ -204,8 +220,8 @@
       window.clearTimeout(rotationTimer);
       if (buttons.length < 2 || reducedMotion.matches || document.hidden || interactionPaused) return;
 
-      const delay = 8000 + Math.random() * 4000;
-      rotationTimer = window.setTimeout(() => activate(nextRandomButton()), delay);
+      const delay = 4800 + Math.random() * 1200;
+      rotationTimer = window.setTimeout(() => activate(nextButton()), delay);
     }
 
     function activate(button) {
@@ -236,7 +252,7 @@
           showModel(button);
           requestAnimationFrame(() => image.classList.remove("is-changing"));
           scheduleRotation();
-        }, 500);
+        }, 360);
       };
 
       nextImage.onerror = () => {
@@ -250,7 +266,6 @@
 
     buttons.forEach((button) => {
       button.addEventListener("click", () => {
-        rotationQueue = [];
         changeToken += 1;
         image.classList.remove("is-changing");
         activate(button);
@@ -294,7 +309,7 @@
       reducedMotion.addListener(handleMotionChange);
     }
 
-    updateLookbook(activeButton);
+    showModel(activeButton);
     scheduleRotation();
   }
 
@@ -505,7 +520,8 @@
         const image = document.createElement("img");
         image.src = preview.image;
         image.alt = "";
-        image.loading = "lazy";
+        image.loading = "eager";
+        image.fetchPriority = "high";
         image.decoding = "async";
         media.append(image);
       }
@@ -526,7 +542,7 @@
           setCategory(value);
           return;
         }
-        const catalogUrl = new URL("./", window.location.href);
+        const catalogUrl = new URL("./index.html", window.location.href);
         catalogUrl.searchParams.set("tema", value || "todos");
         catalogUrl.hash = "modelos";
         window.location.assign(catalogUrl);

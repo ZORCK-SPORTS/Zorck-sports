@@ -61,7 +61,7 @@
   function setupHeroIntro() {
     const hero = document.querySelector(".hero");
     if (!hero) return;
-    const words = splitWords(hero.querySelector("h1"));
+    const words = splitWords(hero.querySelector("h1:not(.sr-only)"));
     const timeline = gsap.timeline({ defaults: { ease: MOTION.ease.expressive } });
     timeline
       .from(words, { yPercent: 125, rotate: 2.5, skewY: 5, duration: MOTION.duration.slow, stagger: MOTION.stagger.words }, 0.08)
@@ -69,6 +69,8 @@
       .from(".hero-lead", { y: MOTION.distance.text, opacity: 0, filter: "blur(6px)", duration: MOTION.duration.base }, 0.34)
       .from(".hero-actions > *", { y: 18, opacity: 0, stagger: 0.1, duration: MOTION.duration.base }, 0.45)
       .from(".hero-proof > div", { y: 20, opacity: 0, stagger: 0.09, duration: MOTION.duration.base }, 0.54)
+      .from(".hero-brand-logo", { scale: 0.92, filter: "blur(10px)", duration: MOTION.duration.slow }, 0.08)
+      .from(".hero-miniature", { scale: 0.72, y: 28, rotate: -6, opacity: 0, stagger: 0.08, duration: MOTION.duration.base }, 0.24)
       .from(".hero-stage", { clipPath: "inset(0 0 0 100%)", duration: 1.05 }, 0)
       .fromTo(".hero-product img",
         { scale: 1.08, y: 35, clipPath: "inset(0 0 100% 0)", visibility: "visible" },
