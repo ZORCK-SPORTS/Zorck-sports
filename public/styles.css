@@ -2468,7 +2468,7 @@ body.dialog-open {
 }
 
 .motion-system-ready .hero-product img {
-  opacity: 1 !important;
+  opacity: 1;
 }
 
 .motion-reduced .hero-product img {

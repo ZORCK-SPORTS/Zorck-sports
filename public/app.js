@@ -177,6 +177,7 @@
     if (!image || !label || !index || !buttons.length) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const animator = window.gsap;
     let rotationTimer;
     let changeToken = 0;
     let interactionPaused = false;
@@ -185,6 +186,13 @@
     function nextButton() {
       const activeIndex = buttons.indexOf(activeButton);
       return buttons[(activeIndex + 1) % buttons.length];
+    }
+
+    function resetImageMotion() {
+      image.classList.remove("is-changing");
+      if (!animator) return;
+      animator.killTweensOf(image);
+      animator.set(image, { clearProps: "opacity,transform,filter" });
     }
 
     function updateLookbook(button) {
@@ -244,6 +252,43 @@
           return;
         }
 
+        if (animator) {
+          animator.killTweensOf(image);
+          animator.to(image, {
+            opacity: 0,
+            scale: 0.965,
+            y: 10,
+            filter: "blur(8px)",
+            duration: 0.28,
+            ease: "power2.in",
+            onComplete: () => {
+              if (token !== changeToken) return;
+
+              showModel(button);
+              animator.fromTo(
+                image,
+                { opacity: 0, scale: 1.035, y: -7, filter: "blur(8px)" },
+                {
+                  opacity: 1,
+                  scale: 1,
+                  y: 0,
+                  filter: "blur(0px)",
+                  duration: 0.52,
+                  ease: "power3.out",
+                  clearProps: "opacity,transform,filter",
+                  onComplete: scheduleRotation,
+                },
+              );
+              animator.fromTo(
+                lookbookCards,
+                { opacity: 0.55, x: 8 },
+                { opacity: 1, x: 0, duration: 0.42, stagger: 0.06, ease: "power2.out", clearProps: "opacity,transform" },
+              );
+            },
+          });
+          return;
+        }
+
         image.classList.add("is-changing");
 
         window.setTimeout(() => {
@@ -257,7 +302,7 @@
 
       nextImage.onerror = () => {
         if (token !== changeToken) return;
-        image.classList.remove("is-changing");
+        resetImageMotion();
         scheduleRotation();
       };
 
@@ -267,7 +312,7 @@
     buttons.forEach((button) => {
       button.addEventListener("click", () => {
         changeToken += 1;
-        image.classList.remove("is-changing");
+        resetImageMotion();
         activate(button);
       });
     });
@@ -287,7 +332,7 @@
       if (document.hidden) {
         window.clearTimeout(rotationTimer);
         changeToken += 1;
-        image.classList.remove("is-changing");
+        resetImageMotion();
         return;
       }
       scheduleRotation();
