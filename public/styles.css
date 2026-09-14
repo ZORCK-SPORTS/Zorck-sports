@@ -3722,3 +3722,63 @@ body.catalog-view .catalog {
     padding: 18px;
   }
 }
+
+/* Enquadramento final: exibe as artes completas e integra fundos claros. */
+.hero-product {
+  border-radius: 28px;
+  background: radial-gradient(circle at 50% 46%, rgba(255, 255, 255, 0.92) 0 30%, rgba(255, 255, 255, 0.38) 54%, transparent 76%);
+}
+
+.hero-product img,
+.lookbook-card img {
+  mix-blend-mode: multiply;
+}
+
+.hero-product img {
+  width: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.product-media {
+  padding: clamp(8px, 1vw, 16px);
+  background: radial-gradient(circle at 50% 42%, #fff 0 34%, #f1f2ee 72%, #e6e8e3 100%);
+}
+
+.product-media img {
+  object-fit: contain;
+  object-position: center;
+  mix-blend-mode: multiply;
+}
+
+.product-card:hover .product-media img {
+  transform: translateY(-3px) scale(1.01);
+}
+
+.dialog-media {
+  display: grid;
+  place-items: center;
+  padding: clamp(12px, 2vw, 28px);
+  background: radial-gradient(circle at 50% 42%, #fff 0 36%, #f1f2ee 74%, #e5e7e2 100%);
+}
+
+.dialog-media img {
+  width: 100%;
+  height: 100%;
+  max-height: calc(100dvh - 90px);
+  object-fit: contain;
+  object-position: center;
+  mix-blend-mode: multiply;
+}
+
+@media (max-width: 680px) {
+  .product-media {
+    padding: 8px;
+  }
+
+  .dialog-media {
+    min-height: min(58dvh, 500px);
+    padding: 10px;
+  }
+}
