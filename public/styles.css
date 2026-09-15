@@ -3894,3 +3894,53 @@ body.catalog-view .results-heading {
     gap: 12px;
   }
 }
+
+/* Poster institucional no painel esquerdo do hero. */
+.hero-poster-panel {
+  align-items: center;
+  overflow: hidden;
+  background: #e9eae6;
+  padding: clamp(12px, 1.4vw, 24px);
+}
+
+.hero-poster-panel .hero-brand-canvas {
+  width: min(98%, 820px);
+  min-height: auto;
+  flex: 0 0 auto;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid rgba(10, 11, 13, 0.12);
+  border-radius: 42px 10px 42px 10px;
+  background: transparent;
+  box-shadow: 0 26px 54px rgba(10, 11, 13, 0.2);
+  filter: none;
+}
+
+.hero-poster-panel .hero-brand-canvas::before,
+.hero-poster-panel .hero-brand-canvas::after {
+  display: none;
+}
+
+.hero-brand-poster {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  object-fit: contain;
+  object-position: center;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+@media (max-width: 980px) {
+  .hero-poster-panel .hero-brand-canvas {
+    width: min(96%, 760px);
+  }
+}
+
+@media (max-width: 520px) {
+  .hero-poster-panel .hero-brand-canvas {
+    width: 100%;
+    border-radius: 28px 8px 28px 8px;
+  }
+}

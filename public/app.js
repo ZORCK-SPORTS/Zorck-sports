@@ -133,7 +133,6 @@
     const index = document.querySelector("#hero-index");
     const heroStage = document.querySelector("#hero-stage");
     const picker = document.querySelector(".hero-picker");
-    const miniatures = document.querySelector("#hero-miniatures");
     const lookbookCards = [...document.querySelectorAll(".lookbook-card")];
     const timesItems = items.filter((item) =>
       (item.categories || []).some((value) => normalize(value) === normalize("Time Amador")),
@@ -156,23 +155,6 @@
         pickerFragment.append(button);
       });
       picker.replaceChildren(pickerFragment);
-    }
-
-    if (miniatures) {
-      const miniatureFragment = document.createDocumentFragment();
-      [7, 91, 176, 284, 413].forEach((position, index) => {
-        const item = items[position % items.length];
-        if (!item) return;
-        const tile = createElement("span", `hero-miniature hero-miniature-${index + 1}`);
-        const tileImage = document.createElement("img");
-        tileImage.src = item.image;
-        tileImage.alt = "";
-        tileImage.loading = "eager";
-        tileImage.decoding = "async";
-        tile.append(tileImage);
-        miniatureFragment.append(tile);
-      });
-      miniatures.replaceChildren(miniatureFragment);
     }
 
     const buttons = [...document.querySelectorAll(".hero-picker button")];
