@@ -3782,3 +3782,115 @@ body.catalog-view .catalog {
     padding: 10px;
   }
 }
+
+/* Catálogo direto: conteúdo útil e primeiros produtos próximos ao menu. */
+body.catalog-view .catalog {
+  padding: 22px clamp(18px, 4.5vw, 72px) clamp(80px, 9vw, 130px);
+}
+
+body.catalog-view .section-heading {
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 24px;
+}
+
+body.catalog-view .catalog-back {
+  min-height: 30px;
+  margin-bottom: 6px;
+  font-size: 10px;
+}
+
+body.catalog-view .section-heading h2 {
+  margin-top: 6px;
+  font-size: clamp(38px, 4.2vw, 68px);
+  line-height: 0.92;
+}
+
+body.catalog-view .section-heading > p {
+  max-width: 360px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+body.catalog-view .brand-policy-catalog {
+  margin-top: 14px;
+  padding: 9px 0;
+}
+
+body.catalog-view .brand-policy-catalog > span {
+  width: 30px;
+  height: 30px;
+  font-size: 13px;
+}
+
+body.catalog-view .brand-policy-catalog p {
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+body.catalog-view .brand-policy-catalog + .catalog-tools,
+body.catalog-view .catalog-tools {
+  margin-top: 14px;
+}
+
+body.catalog-view .catalog-tools {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.34fr) minmax(0, 1fr);
+  gap: 24px;
+  border-top-width: 1px;
+  padding-top: 14px;
+}
+
+body.catalog-view .search-box {
+  display: block;
+}
+
+body.catalog-view .search-box > span:first-child {
+  margin-bottom: 5px;
+}
+
+body.catalog-view .search-control {
+  min-height: 48px;
+}
+
+body.catalog-view .filter-heading {
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+}
+
+body.catalog-view .filter-heading strong {
+  font-size: 26px;
+}
+
+body.catalog-view .catalog-theme-filters {
+  padding-bottom: 4px;
+}
+
+body.catalog-view .results-heading {
+  min-height: 52px;
+  padding: 10px 0;
+}
+
+@media (max-width: 780px) {
+  body.catalog-view .catalog {
+    padding-top: 14px;
+  }
+
+  body.catalog-view .section-heading {
+    display: block;
+  }
+
+  body.catalog-view .section-heading > p,
+  body.catalog-view .brand-policy-catalog {
+    display: none;
+  }
+
+  body.catalog-view .section-heading h2 {
+    font-size: clamp(34px, 11vw, 52px);
+  }
+
+  body.catalog-view .catalog-tools {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}

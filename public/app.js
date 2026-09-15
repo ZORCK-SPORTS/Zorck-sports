@@ -12,11 +12,8 @@
     ["Terceirao", "Terceirão"],
     ["Nono Ano", "Nono ano"],
     ["Time Amador", "Times"],
-    ["Pesca", "Pesca"],
-    ["Agro", "Agro"],
     ["Formandos", "Formandos"],
     ["Professor", "Professor"],
-    ["Profissao", "Profissões"],
   ];
 
   const categoryLabels = Object.fromEntries(categoryOptions);
@@ -25,8 +22,13 @@
     ? requestedTheme
     : "";
   document.body.classList.toggle("catalog-view", requestedTheme !== null);
+  const excludedCategories = new Set(["pesca", "agro", "profissao"]);
   const items = Array.isArray(window.BRANDS_CATALOG)
-    ? window.BRANDS_CATALOG.filter((item) => item?.name && item?.image)
+    ? window.BRANDS_CATALOG.filter((item) =>
+        item?.name &&
+        item?.image &&
+        !(item.categories || []).some((category) => excludedCategories.has(normalize(category))),
+      )
     : [];
 
   const state = {
@@ -544,7 +546,10 @@
   function renderFilterGroup(container, moveToCatalog = false) {
     if (!container) return;
     const fragment = document.createDocumentFragment();
-    categoryOptions.forEach(([value, label], index) => {
+    const visibleOptions = moveToCatalog
+      ? categoryOptions.filter(([value]) => value !== "Formandos")
+      : categoryOptions;
+    visibleOptions.forEach(([value, label], index) => {
       const categoryItems = value
         ? items.filter((item) =>
             (item.categories || []).some((category) => normalize(category) === normalize(value)) ||
